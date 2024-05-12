@@ -1,4 +1,11 @@
 import React, { useState } from 'react';
+import { TextField, InputAdornment, Box } from '@mui/material';
+import { Search } from '@mui/icons-material';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import { CardActionArea } from '@mui/material';
 
 const baseUrl = "https://movie-database-alternative.p.rapidapi.com/";
 const apiKey = process.env.REACT_APP_API_KEY;
@@ -26,14 +33,14 @@ const SearchForm = () => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    fetchApiData(query);
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   fetchApiData(query);
+  // };
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      {/* <form onSubmit={handleSubmit}>
         <input
           type="text"
           value={query}
@@ -41,22 +48,49 @@ const SearchForm = () => {
           placeholder="Search movies..."
         />
         <button type="submit">Search</button>
-      </form>
+      </form> */}
+      <Box display="flex" justifyContent="center">
+        <TextField
+          variant="outlined"
+          placeholder="Search Movies"
+          onChange={(e) => setQuery(e.target.value)}
+          onKeyDown={(e) => { if (e.key === 'Enter') fetchApiData(query); }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Search />
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Box>
       {searchResults && searchResults.Search && (
         <div>
-          <h2>Search Results</h2>
-          <ul>
-            {searchResults.Search.map((movie) => (
-              <li key={movie.imdbID}>
-                <img src={movie.Poster} alt={movie.Title} />
-                <h3>{movie.Title}</h3>
-                <p>{movie.Year}</p>
-                <p>Type: {movie.Type}</p>
-              </li>
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', marginTop: '50px' }}>
+            {searchResults.Search.map((movie, index) => (
+              <Card key={index} sx={{ maxWidth: 200, marginBottom: '20px' }}>
+                <CardActionArea>
+                  <CardMedia
+                    component="img"
+                    height="280"
+                    image={movie.Poster}
+                    alt={movie.Title}
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h6" component="div">
+                      {movie.Title}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {movie.Year}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
             ))}
-          </ul>
+          </div>
         </div>
       )}
+      {/* </Box> */}
     </div>
   );
 };
