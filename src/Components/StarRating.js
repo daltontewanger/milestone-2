@@ -31,4 +31,4 @@ function StarRating() {
     )
 }
 
-export default StarRating
+export { StarRating, rating };

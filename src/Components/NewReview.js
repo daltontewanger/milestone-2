@@ -30,14 +30,51 @@
 
 // export default NewReview
 
-import StarRating from "./StarRating"
+import { StarRating } from "./StarRating";
 
 function NewReview() {
+    const [reviewText, setReviewText] = useState('');
+    const [rating, setRating] = useState(null);
+
+    const handleSubmit = (event) => {
+        event.preventDefault(); // Prevents the default form submission behavior
+    
+        // Collect form data
+        const formData = {
+            formRating: rating,
+            review: reviewText.trim() // Use the state variable directly for review text
+        };
+        console.log("Review:", formData);
+        event.target.reset();
+    };
+
+    const handleCancel = () => {
+        setReviewText('');
+        setRating(null); // Reset the rating as well
+    };
+
     return (
         <div>
-           <StarRating />
+            <h3>Write a Review</h3>
+            <StarRating onChange={(newRating) => setRating(newRating)} />
+            <form onSubmit={handleSubmit}>
+                <textarea 
+                    name="review" 
+                    value={reviewText} 
+                    onChange={(e) => setReviewText(e.target.value)} 
+                    placeholder="Write your review..."
+                ></textarea>
+                <div className="btn-group">
+                    <button className="submit" type="submit">Submit</button>
+                    <button className="cancel" type="button" onClick={handleCancel}>Cancel</button>
+                </div>
+            </form>
         </div>
-    )
+    );
 }
 
-export default NewReview
+export default NewReview;
+
+
+
+//add character length and impove the review area
