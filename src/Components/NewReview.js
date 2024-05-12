@@ -1,72 +1,52 @@
-// import React from "react";
-// import { useState } from "react";
-
-// function NewReview() {
-
-//     return (
-//         <div>
-//             <head>
-//             <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'/>
-//             </head>
-//             <h3>Write a Review</h3>
-//             <form>
-//                 <div className="starRatings">
-//                     <input type="number" name="rating" id="starRating"></input>
-//                     <i class='bx bx-star'></i>
-//                     <i class='bx bx-star'></i>
-//                     <i class='bx bx-star'></i>
-//                     <i class='bx bx-star'></i>
-//                     <i class='bx bx-star'></i>
-//                 </div>
-//                 <textarea name="review" placeholder="Write your review..."></textarea>
-//                 <div class="btn-group">
-//                     <button className="submit" type="submit">Submit</button>
-//                     <button className="cancel">Cancel</button>
-//                 </div>
-//             </form>
-//         </div>
-//     )
-// }
-
-// export default NewReview
-
-import { StarRating } from "./StarRating";
+import React, { useState } from "react";
+import StarRating from "./StarRating";
 
 function NewReview() {
-    const [reviewText, setReviewText] = useState('');
-    const [rating, setRating] = useState(null);
+    const [currentRating, setCurrentRating] = useState(0);
+    const [review, setReview] = useState("");
+    const maxCharacters = 1200; // Define your character limit
 
     const handleSubmit = (event) => {
-        event.preventDefault(); // Prevents the default form submission behavior
-    
-        // Collect form data
-        const formData = {
-            formRating: rating,
-            review: reviewText.trim() // Use the state variable directly for review text
-        };
-        console.log("Review:", formData);
-        event.target.reset();
+        event.preventDefault();
+        console.log("Submitted rating:", currentRating, "Review:", review);
+        setCurrentRating(0);
+        setReview("");
     };
 
     const handleCancel = () => {
-        setReviewText('');
-        setRating(null); // Reset the rating as well
+        setCurrentRating(0);
+        setReview("");
+    };
+
+    const handleRatingChange = (newRating) => {
+        setCurrentRating(newRating);
+    };
+
+    const handleReviewChange = (event) => {
+        const inputText = event.target.value;
+        if (inputText.length <= maxCharacters) { // Check if input text length is within limit
+            setReview(inputText);
+        }
     };
 
     return (
         <div>
             <h3>Write a Review</h3>
-            <StarRating onChange={(newRating) => setRating(newRating)} />
-            <form onSubmit={handleSubmit}>
+            <StarRating rating={currentRating} onRatingChange={handleRatingChange} />
+            <form>
                 <textarea 
                     name="review" 
-                    value={reviewText} 
-                    onChange={(e) => setReviewText(e.target.value)} 
+                    value={review} 
+                    onChange={handleReviewChange} 
                     placeholder="Write your review..."
+                    maxLength={maxCharacters} // Set max length attribute
                 ></textarea>
+                <div>
+                    <p>{review.length}/{maxCharacters} characters</p> {/* Display character count */}
+                </div>
                 <div className="btn-group">
-                    <button className="submit" type="submit">Submit</button>
-                    <button className="cancel" type="button" onClick={handleCancel}>Cancel</button>
+                    <button className="submit" type="submit" onClick={handleSubmit}>Submit</button>
+                    <button className="cancel" onClick={handleCancel}>Cancel</button>
                 </div>
             </form>
         </div>
