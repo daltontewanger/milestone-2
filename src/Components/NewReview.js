@@ -4,11 +4,11 @@ import StarRating from "./StarRating";
 function NewReview() {
     const [currentRating, setCurrentRating] = useState(0);
     const [review, setReview] = useState("");
-    const maxCharacters = 1200; // Define your character limit
+    const maxCharacters = 500;
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log("Submitted rating:", currentRating, "Review:", review);
+        console.log("Rating:", currentRating, "Review:", review);
         setCurrentRating(0);
         setReview("");
     };
@@ -45,8 +45,8 @@ function NewReview() {
                     <p>{review.length}/{maxCharacters} characters</p> {/* Display character count */}
                 </div>
                 <div className="btn-group">
-                    <button className="submit" type="submit" onClick={handleSubmit}>Submit</button>
-                    <button className="cancel" onClick={handleCancel}>Cancel</button>
+                    <button className="submit" type="submit" onClick={handleSubmit} style={{backgroundColor: 'lightblue'}}>Submit</button>
+                    <button className="cancel" onClick={handleCancel} style={{backgroundColor: 'red'}}>Cancel</button>
                 </div>
             </form>
         </div>
@@ -54,7 +54,3 @@ function NewReview() {
 }
 
 export default NewReview;
-
-
-
-//add character length and impove the review area
