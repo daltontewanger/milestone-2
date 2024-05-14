@@ -1,17 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import StarRating from "./StarRating";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Grid, Paper, Avatar, Button } from '@mui/material';
 import RateReviewRoundedIcon from '@mui/icons-material/RateReviewRounded';
+import Loading from './Loading';
 
 function NewReview() {
     const [currentRating, setCurrentRating] = useState(0);
     const [review, setReview] = useState("");
     const [error, setError] = useState(false);
     const [ratingError, setRatingError] = useState(false);
+    const [loading, setLoading] = useState(true);
     const maxCharacters = 500;
     const minCharacters = 20;
+
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 2000);
+    }, []);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -20,11 +28,16 @@ function NewReview() {
             setRatingError(currentRating < 1);
             return;
         }
-        console.log("Rating:", currentRating, "Review:", review);
-        setCurrentRating(0);
-        setReview("");
-        setError(false);
-        setRatingError(false);
+        setLoading(true);
+
+        setTimeout(() => {
+            console.log("Rating:", currentRating, "Review:", review);
+            setLoading(false);
+            setCurrentRating(0);
+            setReview("");
+            setError(false);
+            setRatingError(false);
+        }, 2000);
     };
 
     const handleCancel = () => {
@@ -49,8 +62,12 @@ function NewReview() {
         }
     };
 
-    const paperStyle = {padding: 20, height:'auto', width: '70vh', margin:'30px auto'};
-    const avatarStyle = {backgroundColor:'blue'}
+    const paperStyle = { padding: 20, height: 'auto', width: '70vh', margin: '30px auto' };
+    const avatarStyle = { backgroundColor: 'blue' };
+
+    if (loading) {
+        return <Loading />;
+    }
 
     return (
         <div>
@@ -66,7 +83,7 @@ function NewReview() {
                         <Box
                             component="form"
                             sx={{
-                                '& .MuiTextField-root': { m: 1, width: '60ch' }, // Adjust width as needed
+                                '& .MuiTextField-root': { m: 1, width: '60ch' },
                             }}
                             noValidate
                             autoComplete="off"
@@ -78,8 +95,8 @@ function NewReview() {
                                 helperText={error ? `Review must be at least ${minCharacters} characters` : ""}
                                 id="outlined-required"
                                 label="Required"
-                                name="review" 
-                                value={review} 
+                                name="review"
+                                value={review}
                                 onChange={handleReviewChange}
                                 placeholder="Write your review..."
                                 multiline
@@ -92,8 +109,8 @@ function NewReview() {
                                 <p>{review.length}/{maxCharacters} characters</p>
                             </div>
                             <div className="btn-group">
-                                <Button className="submit" type="submit" style={{backgroundColor: 'blue', color:'white', padding: 10, margin: 10}}>Submit</Button>
-                                <Button className="cancel" type="button" onClick={handleCancel} style={{backgroundColor: 'red', color:'white', padding: 10, margin: 10}}>Cancel</Button>
+                                <Button className="submit" type="submit" style={{ backgroundColor: 'blue', color: 'white', padding: 10, margin: 10 }}>Submit</Button>
+                                <Button className="cancel" type="button" onClick={handleCancel} style={{ backgroundColor: 'red', color: 'white', padding: 10, margin: 10 }}>Cancel</Button>
                             </div>
                         </Box>
                     </Grid>
