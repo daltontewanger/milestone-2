@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import StarRating from "./StarRating";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import { Grid, Paper, Avatar, Button } from '@mui/material';
+import RateReviewRoundedIcon from '@mui/icons-material/RateReviewRounded';
 
 function NewReview() {
     const [currentRating, setCurrentRating] = useState(0);
@@ -47,40 +49,56 @@ function NewReview() {
         }
     };
 
+    const paperStyle = {padding: 20, height:'auto', width: '70vh', margin:'30px auto'};
+    const avatarStyle = {backgroundColor:'blue'}
+
     return (
         <div>
-            <h3>Write a Review</h3>
-            <StarRating rating={currentRating} onRatingChange={handleRatingChange} />
-            {ratingError && <p style={{ color: 'red' }}>Please provide at least a 1-star rating.</p>}
-            <Box
-                component="form"
-                sx={{
-                    '& .MuiTextField-root': { m: 1, width: '25ch' },
-                }}
-                noValidate
-                autoComplete="off"
-                onSubmit={handleSubmit}
-            >
-                <TextField
-                    required
-                    error={error}
-                    helperText={error ? `Review must be at least ${minCharacters} characters` : ""}
-                    id="outlined-required"
-                    label="Required"
-                    name="review" 
-                    value={review} 
-                    onChange={handleReviewChange} 
-                    placeholder="Write your review..."
-                    maxLength={maxCharacters}
-                />
-                <div>
-                    <p>{review.length}/{maxCharacters} characters</p> {/* Display character count */}
-                </div>
-                <div className="btn-group">
-                    <button className="submit" type="submit" style={{backgroundColor: 'lightblue'}}>Submit</button>
-                    <button className="cancel" type="button" onClick={handleCancel} style={{backgroundColor: 'red'}}>Cancel</button>
-                </div>
-            </Box>
+            <Grid>
+                <Paper elevation={10} style={paperStyle}>
+                    <Grid align='center'>
+                        <Avatar style={avatarStyle}>
+                            <RateReviewRoundedIcon />
+                        </Avatar>
+                        <h2>Write a Review</h2>
+                        <StarRating rating={currentRating} onRatingChange={handleRatingChange} />
+                        {ratingError && <p style={{ color: 'red' }}>Please provide at least a 1-star rating.</p>}
+                        <Box
+                            component="form"
+                            sx={{
+                                '& .MuiTextField-root': { m: 1, width: '60ch' }, // Adjust width as needed
+                            }}
+                            noValidate
+                            autoComplete="off"
+                            onSubmit={handleSubmit}
+                        >
+                            <TextField
+                                required
+                                error={error}
+                                helperText={error ? `Review must be at least ${minCharacters} characters` : ""}
+                                id="outlined-required"
+                                label="Required"
+                                name="review" 
+                                value={review} 
+                                onChange={handleReviewChange}
+                                placeholder="Write your review..."
+                                multiline
+                                minRows={5}
+                                maxRows={12}
+                                fullWidth
+                                variant="outlined"
+                            />
+                            <div>
+                                <p>{review.length}/{maxCharacters} characters</p>
+                            </div>
+                            <div className="btn-group">
+                                <Button className="submit" type="submit" style={{backgroundColor: 'blue', color:'white', padding: 10, margin: 10}}>Submit</Button>
+                                <Button className="cancel" type="button" onClick={handleCancel} style={{backgroundColor: 'red', color:'white', padding: 10, margin: 10}}>Cancel</Button>
+                            </div>
+                        </Box>
+                    </Grid>
+                </Paper>
+            </Grid>
         </div>
     );
 }
