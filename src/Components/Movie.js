@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { Typography, Paper, Grid, Chip } from "@mui/material";
+import { useParams, useNavigate } from "react-router-dom";
+import { Typography, Paper, Grid, Chip, Button } from "@mui/material";
 
 const baseUrl = "https://movie-database-alternative.p.rapidapi.com/";
 const apiKey = process.env.REACT_APP_API_KEY;
 
 const Movie = () => {
   const { imdbID } = useParams();
+  const navigate = useNavigate();
   const [movieData, setMovieData] = useState(null);
+  const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
     const fetchMovieData = async () => {
@@ -31,8 +33,31 @@ const Movie = () => {
         console.error(error);
       }
     };
+
+    // Simulated reviews
+    const dummyReviews = [
+      {
+        rating: "⭐⭐⭐⭐",
+        content: "Lorem ipsum dolor sit amet.",
+      },
+      {
+        rating: "⭐⭐⭐",
+        content: "Lorem ipsum dolor sit amet.",
+      },
+      {
+        rating: "⭐⭐⭐⭐⭐",
+        content: "Lorem ipsum dolor sit amet.",
+      },
+    ];
+
+    setReviews(dummyReviews);
+
     fetchMovieData();
   }, [imdbID]);
+
+  const handleNewReview = () => {
+    navigate(`/newreview/${imdbID}`);
+  };
 
   if (!movieData) {
     return <div>Loading...</div>;
@@ -46,13 +71,21 @@ const Movie = () => {
       <Paper style={{ padding: "16px", marginBottom: "24px" }}>
         <Grid container spacing={4}>
           <Grid item xs={12} sm={4}>
-            <img src={movieData.Poster} alt={movieData.Title} style={{ maxWidth: "100%", height: "auto" }} />
+            <img
+              src={movieData.Poster}
+              alt={movieData.Title}
+              style={{ maxWidth: "100%", height: "auto" }}
+            />
             <div style={{ marginTop: "16px" }}>
               <Typography variant="subtitle1" gutterBottom>
                 Genres:
               </Typography>
               {movieData.Genre.split(", ").map((genre, index) => (
-                <Chip key={index} label={genre} style={{ marginRight: "8px", marginBottom: "8px" }} />
+                <Chip
+                  key={index}
+                  label={genre}
+                  style={{ marginRight: "8px", marginBottom: "8px" }}
+                />
               ))}
             </div>
           </Grid>
@@ -60,18 +93,72 @@ const Movie = () => {
             <Typography variant="h4" gutterBottom>
               {movieData.Year} | {movieData.Rated} | {movieData.Runtime}
             </Typography>
-            <Typography variant="body1" gutterBottom style={{ fontSize: "1.1rem", marginBottom: "16px" }}>
+            <Typography
+              variant="body1"
+              gutterBottom
+              style={{ fontSize: "1.1rem", marginBottom: "16px" }}
+            >
               {movieData.Plot}
             </Typography>
-            <Typography variant="body1"><strong>Director:</strong> {movieData.Director}</Typography>
-            <Typography variant="body1"><strong>Writer:</strong> {movieData.Writer}</Typography>
-            <Typography variant="body1"><strong>Actors:</strong> {movieData.Actors}</Typography>
-            <Typography variant="body1"><strong>Language:</strong> {movieData.Language}</Typography>
-            <Typography variant="body1"><strong>Country:</strong> {movieData.Country}</Typography>
-            <Typography variant="body1"><strong>Awards:</strong> {movieData.Awards}</Typography>
-            <Typography variant="body1"><strong>IMDb Rating:</strong> {movieData.imdbRating}</Typography>
-            <Typography variant="body1"><strong>IMDb Votes:</strong> {movieData.imdbVotes}</Typography>
+            <Typography variant="body1">
+              <strong>Director:</strong> {movieData.Director}
+            </Typography>
+            <Typography variant="body1">
+              <strong>Writer:</strong> {movieData.Writer}
+            </Typography>
+            <Typography variant="body1">
+              <strong>Actors:</strong> {movieData.Actors}
+            </Typography>
+            <Typography variant="body1">
+              <strong>Language:</strong> {movieData.Language}
+            </Typography>
+            <Typography variant="body1">
+              <strong>Country:</strong> {movieData.Country}
+            </Typography>
+            <Typography variant="body1">
+              <strong>Awards:</strong> {movieData.Awards}
+            </Typography>
+            <Typography variant="body1">
+              <strong>IMDb Rating:</strong> {movieData.imdbRating}
+            </Typography>
+            <Typography variant="body1">
+              <strong>IMDb Votes:</strong> {movieData.imdbVotes}
+            </Typography>
           </Grid>
+        </Grid>
+      </Paper>
+
+      <Typography variant="h2" gutterBottom>
+        Reviews
+        <Button
+          variant="contained"
+          color="primary"
+          style={{ marginLeft: "16px" }}
+          onClick={handleNewReview}
+        >
+          New Review
+        </Button>
+      </Typography>
+      <Paper
+        style={{
+          backgroundColor: "#f5f5f5",
+          padding: "16px",
+          marginBottom: "24px",
+        }}
+      >
+        <Grid container spacing={2}>
+          {reviews.map((review, index) => (
+            <Grid item xs={12} sm={6} key={index}>
+              <Paper style={{ padding: "16px", marginBottom: "16px" }}>
+                <Typography variant="subtitle1" gutterBottom>
+                  Rating: {review.rating}
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  {review.content}
+                </Typography>
+              </Paper>
+            </Grid>
+          ))}
         </Grid>
       </Paper>
     </div>
