@@ -34,24 +34,17 @@ const Movie = () => {
       }
     };
 
-    // Simulated reviews
-    const dummyReviews = [
-      {
-        rating: "⭐⭐⭐⭐",
-        content: "Lorem ipsum dolor sit amet.",
-      },
-      {
-        rating: "⭐⭐⭐",
-        content: "Lorem ipsum dolor sit amet.",
-      },
-      {
-        rating: "⭐⭐⭐⭐⭐",
-        content: "Lorem ipsum dolor sit amet.",
-      },
-    ];
+    const fetchReviews = async () => {
+      try {
+        const response = await fetch(`https://ms-2-project-backend.onrender.com/reviews/${imdbID}`);
+        const result = await response.json();
+        setReviews(result);
+      } catch (error) {
+        console.error('Error fetching reviews:', error);
+      }
+    };
 
-    setReviews(dummyReviews);
-
+    fetchReviews();
     fetchMovieData();
   }, [imdbID]);
 
@@ -154,7 +147,7 @@ const Movie = () => {
                   Rating: {review.rating}
                 </Typography>
                 <Typography variant="body1" gutterBottom>
-                  {review.content}
+                  {review.review}
                 </Typography>
               </Paper>
             </Grid>
