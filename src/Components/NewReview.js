@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import StarRating from "./StarRating";
 import Box from '@mui/material/Box';
@@ -8,6 +9,7 @@ import RateReviewRoundedIcon from '@mui/icons-material/RateReviewRounded';
 import Loading from './Loading'; // Import the Loading component
 
 function NewReview () {
+    const navigate = useNavigate()
     const { imdbID } = useParams();
     const [currentRating, setCurrentRating] = useState(0);
     const [review, setReview] = useState("");
@@ -42,6 +44,8 @@ function NewReview () {
             setReview("");
             setError(false);
             setRatingError(false);
+
+            navigate(`/movie/${imdbID}`)
         }, 2000); // Adjust the timeout as needed
     };
 
