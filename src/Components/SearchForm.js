@@ -15,9 +15,11 @@ const SearchForm = () => {
   const [query, setQuery] = useState('');
   const [searchResults, setSearchResults] = useState(null); // State to hold search results
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   const fetchApiData = async (query) => {
     setLoading(true);
+    setError(false);
     const url = `${baseUrl}?s=${encodeURIComponent(query)}&r=json`;
     const options = {
       method: 'GET',
@@ -30,9 +32,15 @@ const SearchForm = () => {
     try {
       const response = await fetch(url, options);
       const result = await response.json();
-      setSearchResults(result); // Update state with search results
+      if (result && result.Search && result.Search.length > 0) {
+        setSearchResults(result);
+      } else {
+        setSearchResults(null);
+        setError(true);
+      }
     } catch (error) {
       console.error(error);
+      setError(true);
     } finally {
       setLoading(false);
     }
@@ -57,6 +65,11 @@ const SearchForm = () => {
         />
       </Box>
       {loading && <Box display="flex" justifyContent="center"><CircularProgress /></Box>}
+      {error && (
+        <Typography variant="body1" align="center" fontWeight="bold">
+          Lame! Pick a movie that actually exists!
+        </Typography>
+      )}
       {searchResults && searchResults.Search && (
         <div>
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', marginTop: '50px', paddingLeft: '80px' }}>
