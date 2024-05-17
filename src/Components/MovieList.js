@@ -8,7 +8,7 @@ function MovieList() {
 
     return (
         <div>
-            <h1 align="center">Welcome to JEDC Movie Reviews</h1>
+            <h1 align="center">Welcome to JEDCV Movie Reviews</h1>
             {/* <Box display="flex" justifyContent="center" height="100vh">
                 <TextField
                     variant="outlined"
