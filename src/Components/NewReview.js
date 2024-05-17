@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useParams } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import StarRating from "./StarRating";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
