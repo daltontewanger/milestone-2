@@ -40,14 +40,13 @@ function EditReview() {
     }, [imdbID, reviewID]);
 
     const handleSubmit = async (event) => {
-        console.log("imdbID:", imdbID);
         event.preventDefault();
         if (review.length < minCharacters || currentRating < 1) {
             setError(review.length < minCharacters);
             setRatingError(currentRating < 1);
             return;
         }
-        const url = `https://jedc-movie-reviews.onrender.com/reviews/${reviewID}`;
+        const url = `https://ms-2-project-backend.onrender.com/reviews/${reviewID}`;
         try {
             const response = await fetch(url, {
                 method: 'PUT',
