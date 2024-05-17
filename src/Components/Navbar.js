@@ -27,7 +27,7 @@ function Navbar() {
                             textDecoration: 'none',
                         }}
                     >
-                        JEDC
+                        JEDCV
                     </Typography>
                     <LiveTvIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
                     <Typography
@@ -46,7 +46,7 @@ function Navbar() {
                             textDecoration: 'none',
                         }}
                     >
-                        JEDC
+                        JEDCV
                     </Typography>
                     {/* <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         <Button sx={{ my: 2, color: 'white', display: 'block' }} href={'/'} onClick={handleCloseNavMenu}>Movies</Button>
