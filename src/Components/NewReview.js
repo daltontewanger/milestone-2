@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { v4 as uuidv4 } from 'uuid';
 import StarRating from "./StarRating";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Grid, Paper, Avatar, Button, Typography } from '@mui/material';
 import RateReviewRoundedIcon from '@mui/icons-material/RateReviewRounded';
-import Loading from './Loading'; // Import the Loading component
+import Loading from './Loading';
 
 function NewReview () {
     const navigate = useNavigate()
@@ -15,16 +16,15 @@ function NewReview () {
     const [review, setReview] = useState("");
     const [error, setError] = useState(false);
     const [ratingError, setRatingError] = useState(false);
-    const [loading, setLoading] = useState(true); // Add loading state for initial load
+    const [loading, setLoading] = useState(true);
     const maxCharacters = 500;
     const minCharacters = 20;
 
 
     useEffect(() => {
-        // Simulate a data fetch or initialization
         setTimeout(() => {
-            setLoading(false); // Set loading to false after initialization completes
-        }, 2000); // Adjust the timeout as needed
+            setLoading(false);
+        }, 2000);
     }, []);
 
     const handleSubmit = (event) => {
@@ -34,20 +34,22 @@ function NewReview () {
             setRatingError(currentRating < 1);
             return;
         }
-        setLoading(true); // Set loading to true when submission starts
+        setLoading(true);
 
-        // Simulate an async operation (e.g., API call)
+        const reviewId = uuidv4();
+
         setTimeout(() => {
-            console.log("Rating:", currentRating, "Review:", review);
-            setLoading(false); // Set loading to false after the operation completes
+            console.log("Review ID:", reviewId, "Rating:", currentRating, "Review:", review);
+            setLoading(false);
             setCurrentRating(0);
             setReview("");
             setError(false);
             setRatingError(false);
-
+    
             navigate(`/movie/${imdbID}`)
-        }, 2000); // Adjust the timeout as needed
+        }, 2000);
     };
+    
 
     const handleCancel = () => {
         setCurrentRating(0);
@@ -75,7 +77,7 @@ function NewReview () {
     const avatarStyle = { backgroundColor: '#1976d2' };
 
     if (loading) {
-        return <Loading />; // Display loading spinner while loading
+        return <Loading />;
     }
 
     return (
