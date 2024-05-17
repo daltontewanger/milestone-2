@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { v4 as uuidv4 } from 'uuid';
 import StarRating from "./StarRating";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -27,7 +26,7 @@ function NewReview () {
         }, 2000);
     }, []);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         if (review.length < minCharacters || currentRating < 1) {
             setError(review.length < minCharacters);
@@ -35,19 +34,38 @@ function NewReview () {
             return;
         }
         setLoading(true);
-
-        const reviewId = uuidv4();
-
-        setTimeout(() => {
-            console.log("Review ID:", reviewId, "Rating:", currentRating, "Review:", review);
+    
+        try {
+            const response = await fetch('https://ms-2-project-backend.onrender.com/reviews', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    imdb: imdbID,
+                    rating: currentRating,
+                    review: review
+                })
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to submit review');
+            }
+    
+            console.log("Review submitted successfully");
+    
             setLoading(false);
             setCurrentRating(0);
             setReview("");
             setError(false);
             setRatingError(false);
     
-            navigate(`/movie/${imdbID}`)
-        }, 2000);
+            navigate(`/movie/${imdbID}`);
+        } catch (error) {
+            console.error("Error submitting review:", error);
+            setLoading(false);
+            // Handle error here
+        }
     };
     
 
