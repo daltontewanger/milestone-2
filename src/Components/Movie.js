@@ -36,11 +36,13 @@ const Movie = () => {
 
     const fetchReviews = async () => {
       try {
-        const response = await fetch(`https://ms-2-project-backend.onrender.com/reviews/${imdbID}`);
+        const response = await fetch(
+          `https://ms-2-project-backend.onrender.com/reviews/${imdbID}`
+        );
         const result = await response.json();
         setReviews(result);
       } catch (error) {
-        console.error('Error fetching reviews:', error);
+        console.error("Error fetching reviews:", error);
       }
     };
 
@@ -50,6 +52,10 @@ const Movie = () => {
 
   const handleNewReview = () => {
     navigate(`/newreview/${imdbID}`);
+  };
+
+  const handleEditReview = (reviewID) => {
+    navigate(`/editreview/${imdbID}/${reviewID}`);
   };
 
   if (!movieData) {
@@ -142,7 +148,14 @@ const Movie = () => {
         <Grid container spacing={2}>
           {reviews.map((review, index) => (
             <Grid item xs={12} sm={6} key={index}>
-              <Paper style={{ padding: "16px", marginBottom: "16px" }}>
+              <Paper
+                style={{
+                  padding: "16px",
+                  marginBottom: "16px",
+                  cursor: "pointer",
+                }}
+                onClick={() => handleEditReview(review._id)}
+              >
                 <Typography variant="subtitle1" gutterBottom>
                   Rating: {review.rating}
                 </Typography>
