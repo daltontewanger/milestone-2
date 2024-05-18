@@ -58,6 +58,10 @@ const Movie = () => {
     navigate(`/editreview/${imdbID}/${reviewID}`);
   };
 
+  const handleDeleteReview = (reviewID) => {
+    navigate(`/deletereview/${imdbID}/${reviewID}`);
+  };
+
   if (!movieData) {
     return <div>Loading...</div>;
   }
@@ -154,14 +158,15 @@ const Movie = () => {
                   marginBottom: "16px",
                   cursor: "pointer",
                 }}
-                onClick={() => handleEditReview(review._id)}
               >
                 <Typography variant="subtitle1" gutterBottom>
-                  Rating: {review.rating}
+                  Rating: {review.rating} ⭐
                 </Typography>
                 <Typography variant="body1" gutterBottom>
                   {review.review}
                 </Typography>
+                <Button type="button" onClick={() => handleEditReview(review._id)} sx={{ backgroundColor: 'blue', color: 'white', px: 3 }} variant="contained">Edit</Button>
+                <Button  type="button" onClick={() => handleDeleteReview(review._id)} sx={{ backgroundColor: 'darkred', color: 'white', px: 3 }} variant="contained">Delete</Button>
               </Paper>
             </Grid>
           ))}

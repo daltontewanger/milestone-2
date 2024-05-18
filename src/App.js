@@ -4,6 +4,7 @@ import Movie from "./Components/Movie";
 import MovieList from "./Components/MovieList";
 import NewReview from "./Components/NewReview";
 import EditReview from "./Components/EditReview";
+import DeleteReview from "./Components/DeleteReview";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/movie/:imdbID" element={<Movie />} />
           <Route path="/newreview/:imdbID" element={<NewReview />} />
           <Route path="/editreview/:imdbID/:reviewID" element={<EditReview />} />
+          <Route path="/deletereview/:imdbID/:reviewID" element={<DeleteReview />} />
         </Routes>
       </Router>
     </div>
