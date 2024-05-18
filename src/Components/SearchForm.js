@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, InputAdornment, Box, CircularProgress } from '@mui/material';
+import { TextField, InputAdornment, Box, CircularProgress, Grid } from '@mui/material';
 import { Search } from '@mui/icons-material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -71,32 +71,34 @@ const SearchForm = () => {
         </Typography>
       )}
       {searchResults && searchResults.Search && (
-        <div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', marginTop: '50px', paddingLeft: '80px' }}>
+        <Box display="flex" justifyContent="center">
+          <Grid container spacing={2} style={{ margin: '30px auto', maxWidth: '1400px' }}>
             {searchResults.Search.map((movie, index) => (
-              <Link to={`/movie/${movie.imdbID}`} key={movie.imdbID} style={{ textDecoration: 'none', width: 'calc(100% / 6)', marginBottom: '20px' }}>
-                <Card sx={{ maxWidth: 200 }}>
-                  <CardActionArea>
-                    <CardMedia
-                      component="img"
-                      height="280"
-                      image={movie.Poster}
-                      alt={movie.Title}
-                    />
-                    <CardContent>
-                      <Typography gutterBottom variant="h6" component="div" sx={{ height: '60px', overflow: 'hidden' }}>
-                        {movie.Title}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        {movie.Year}
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
-              </Link>
+              <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={movie.imdbID}>
+                <Link to={`/movie/${movie.imdbID}`} key={movie.imdbID} style={{ textDecoration: 'none', width: 'calc(100% / 6)', marginBottom: '20px' }} >
+                  <Card >
+                    <CardActionArea>
+                      <CardMedia
+                        component="img"
+                        height="350"
+                        image={movie.Poster}
+                        alt={movie.Title}
+                      />
+                      <CardContent>
+                        <Typography gutterBottom variant="h6" component="div" sx={{ height: '60px', overflow: 'hidden' }}>
+                          {movie.Title}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          {movie.Year}
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
+                </Link>
+              </Grid>
             ))}
-          </div>
-        </div>
+          </Grid>
+        </Box>
       )}
     </div>
   );
