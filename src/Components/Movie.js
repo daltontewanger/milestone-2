@@ -168,8 +168,6 @@ const Movie = () => {
                 <Typography variant="body1" gutterBottom>
                   {review.review}
                 </Typography>
-                {/* <Button type="button" onClick={() => handleEditReview(review._id)} sx={{ backgroundColor: 'blue', color: 'white', px: 3 }} variant="contained">Edit</Button> */}
-                {/* <Button  type="button" onClick={() => handleDeleteReview(review._id)} sx={{ backgroundColor: 'darkred', color: 'white', px: 3 }} variant="contained">Delete</Button> */}
                 <EditIcon onClick={() => handleEditReview(review._id)} color='primary' ></EditIcon>
                 <DeleteIcon onClick={() => handleDeleteReview(review._id)} sx={{ color: red[900] }}></DeleteIcon>
               </Paper>
