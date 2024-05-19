@@ -198,6 +198,13 @@ const Movie = () => {
         }}
       >
         <Grid container spacing={2}>
+          {reviews.length === 0 && (
+            <Grid item xs={12} sm={12} style={{ textAlign: "center" }}>
+              <Typography variant="h6" gutterBottom>
+                Be the first to review this movie on our site!
+              </Typography>
+            </Grid>
+          )}
           {reviews.map((review, index) => (
             <Grid item xs={12} sm={6} key={index}>
               <Paper
