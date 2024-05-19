@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Typography, Paper, Grid, Chip, Button } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
+import { red } from '@mui/material/colors';
+import EditIcon from '@mui/icons-material/Edit';
 
 const baseUrl = "https://movie-database-alternative.p.rapidapi.com/";
 const apiKey = process.env.REACT_APP_API_KEY;
@@ -165,8 +168,10 @@ const Movie = () => {
                 <Typography variant="body1" gutterBottom>
                   {review.review}
                 </Typography>
-                <Button type="button" onClick={() => handleEditReview(review._id)} sx={{ backgroundColor: 'blue', color: 'white', px: 3 }} variant="contained">Edit</Button>
-                <Button  type="button" onClick={() => handleDeleteReview(review._id)} sx={{ backgroundColor: 'darkred', color: 'white', px: 3 }} variant="contained">Delete</Button>
+                {/* <Button type="button" onClick={() => handleEditReview(review._id)} sx={{ backgroundColor: 'blue', color: 'white', px: 3 }} variant="contained">Edit</Button> */}
+                {/* <Button  type="button" onClick={() => handleDeleteReview(review._id)} sx={{ backgroundColor: 'darkred', color: 'white', px: 3 }} variant="contained">Delete</Button> */}
+                <EditIcon onClick={() => handleEditReview(review._id)} color='primary' ></EditIcon>
+                <DeleteIcon onClick={() => handleDeleteReview(review._id)} sx={{ color: red[900] }}></DeleteIcon>
               </Paper>
             </Grid>
           ))}
