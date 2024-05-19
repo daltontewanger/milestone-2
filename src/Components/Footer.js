@@ -7,7 +7,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
 
-const Footer = () => {
+const Footer = ({ isMainPage }) => {
   return (
     <Box
       component="footer"
@@ -16,9 +16,11 @@ const Footer = () => {
         color: 'white',
         textAlign: 'center',
         py: 3,
-        position: 'fixed',
-        bottom: 0,
+        position: isMainPage ? 'fixed' : 'static',
+        bottom: isMainPage ? 0 : 'auto',
+        left: 0,
         width: '100%',
+        zIndex: 1000,
       }}
     >
       <Typography variant="h6">Connect with us:</Typography>
@@ -64,7 +66,7 @@ const Footer = () => {
           <FacebookIcon />
         </IconButton>
       </Box>
-      <Typography variant="body2" mt={1}>© 2024 by JEDCV. All rights reserved.</Typography>
+      <Typography variant="body2">© 2024 by JEDCV. All rights reserved.</Typography>
     </Box>
   );
 }
