@@ -47,7 +47,7 @@ function DeleteReview() {
                 throw new Error('Failed to delete review');
             }
             console.log("Review deleted successfully");
-            // Navigate back to the movie component
+            
             navigate(`/movie/${imdbID}`);
         } catch (error) {
             console.error("Error deleting review:", error);
@@ -58,7 +58,7 @@ function DeleteReview() {
         navigate(`/movie/${imdbID}`);
     };
 
-    const paperStyle = { padding: 20, height: 'auto', width: '100%', maxWidth: '600px', margin: '30px auto' };
+    //const paperStyle = { padding: 20, height: 'auto', width: '100%', maxWidth: '600px', margin: '30px auto', };
     const avatarStyle = { backgroundColor: '#1976d2' };
 
     if (loading) {
@@ -66,10 +66,24 @@ function DeleteReview() {
     }
 
     return (
-        <div>
+        <div style={{ overflowX: 'auto' }}>
             <Grid container justifyContent="center">
                 <Grid item xs={12} sm={10} md={8} lg={6}>
-                    <Paper elevation={10} style={paperStyle}>
+                <Paper
+                style={{
+                  padding: 20,
+                  height: "auto",
+                  maxWidth: '600px',
+                  margin: '30px auto',
+                  marginBottom: "1rem",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  wordBreak: "break-word",
+                  overflow: "hidden",
+                  position: "relative",
+                }}
+              >
                         <Grid align='center'>
                             <Avatar style={avatarStyle}>
                                 <RateReviewRoundedIcon />
