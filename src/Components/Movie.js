@@ -250,11 +250,11 @@ const Movie = () => {
                   <EditIcon
                     onClick={() => handleEditReview(review._id)}
                     color="primary"
-                    sx={{ marginRight: "0.5rem" }}
+                    sx={{ marginRight: "0.5rem", cursor: "pointer" }}
                   />
                   <DeleteIcon
                     onClick={() => handleDeleteReview(review._id)}
-                    sx={{ color: red[900] }}
+                    sx={{ color: red[900], cursor: "pointer" }}
                   />
                 </div>
               </Paper>
