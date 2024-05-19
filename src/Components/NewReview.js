@@ -70,10 +70,7 @@ function NewReview () {
     
 
     const handleCancel = () => {
-        setCurrentRating(0);
-        setReview("");
-        setError(false);
-        setRatingError(false);
+        navigate(`/movie/${imdbID}`);
     };
 
     const handleRatingChange = (newRating) => {
