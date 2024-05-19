@@ -8,8 +8,8 @@ import { Grid, Paper, Avatar, Button, Typography } from '@mui/material';
 import RateReviewRoundedIcon from '@mui/icons-material/RateReviewRounded';
 import Loading from './Loading';
 
-function NewReview () {
-    const navigate = useNavigate()
+function NewReview() {
+    const navigate = useNavigate();
     const { imdbID } = useParams();
     const [currentRating, setCurrentRating] = useState(0);
     const [review, setReview] = useState("");
@@ -18,7 +18,7 @@ function NewReview () {
     const [loading, setLoading] = useState(true);
     const maxCharacters = 500;
     const minCharacters = 20;
-
+    const maxRows = 15;
 
     useEffect(() => {
         setTimeout(() => {
@@ -34,7 +34,7 @@ function NewReview () {
             return;
         }
         setLoading(true);
-    
+
         try {
             const response = await fetch('https://ms-2-project-backend.onrender.com/reviews', {
                 method: 'POST',
@@ -47,19 +47,19 @@ function NewReview () {
                     review: review
                 })
             });
-    
+
             if (!response.ok) {
                 throw new Error('Failed to submit review');
             }
-    
+
             console.log("Review submitted successfully");
-    
+
             setLoading(false);
             setCurrentRating(0);
             setReview("");
             setError(false);
             setRatingError(false);
-    
+
             navigate(`/movie/${imdbID}`);
         } catch (error) {
             console.error("Error submitting review:", error);
@@ -67,7 +67,6 @@ function NewReview () {
             // Handle error here
         }
     };
-    
 
     const handleCancel = () => {
         navigate(`/movie/${imdbID}`);
@@ -80,11 +79,16 @@ function NewReview () {
 
     const handleReviewChange = (event) => {
         const inputText = event.target.value;
-        if (inputText.length <= maxCharacters) {
+        const lines = inputText.split('\n');
+        if (lines.length <= maxRows && inputText.length <= maxCharacters) {
             setReview(inputText);
             if (inputText.length >= minCharacters) {
                 setError(false);
             }
+        } else if (lines.length > maxRows) {
+            const truncatedText = lines.slice(0, maxRows).join('\n');
+            setReview(truncatedText);
+            setError(false);
         }
     };
 
@@ -131,7 +135,7 @@ function NewReview () {
                                     placeholder="Write your review..."
                                     multiline
                                     minRows={5}
-                                    maxRows={12}
+                                    maxRows={maxRows}
                                     fullWidth
                                     variant="outlined"
                                 />
@@ -139,7 +143,6 @@ function NewReview () {
                                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
                                     <Button type="button" onClick={handleCancel} sx={{ backgroundColor: 'red', color: 'white', px: 3 }} variant="contained">Cancel</Button>
                                     <Button type="submit" sx={{ backgroundColor: 'blue', color: 'white', px: 3 }} variant="contained">Submit</Button>
-                                    
                                 </Box>
                             </Box>
                         </Grid>

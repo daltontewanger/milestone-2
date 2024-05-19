@@ -18,6 +18,7 @@ function EditReview() {
     const [loading, setLoading] = useState(true);
     const maxCharacters = 500;
     const minCharacters = 20;
+    const maxRows = 15;
 
     useEffect(() => {
         const fetchReviewData = async () => {
@@ -85,11 +86,16 @@ function EditReview() {
 
     const handleReviewChange = (event) => {
         const inputText = event.target.value;
-        if (inputText.length <= maxCharacters) {
+        const lines = inputText.split('\n');
+        if (lines.length <= maxRows && inputText.length <= maxCharacters) {
             setReview(inputText);
             if (inputText.length >= minCharacters) {
                 setError(false);
             }
+        } else if (lines.length > maxRows) {
+            const truncatedText = lines.slice(0, maxRows).join('\n');
+            setReview(truncatedText);
+            setError(false);
         }
     };
 
@@ -136,7 +142,7 @@ function EditReview() {
                                     placeholder="Write your review..."
                                     multiline
                                     minRows={5}
-                                    maxRows={12}
+                                    maxRows={maxRows}
                                     fullWidth
                                     variant="outlined"
                                 />

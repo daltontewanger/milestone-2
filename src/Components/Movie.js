@@ -9,6 +9,9 @@ import {
   IconButton,
 } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { red } from "@mui/material/colors";
+import EditIcon from "@mui/icons-material/Edit";
 
 const baseUrl = "https://movie-database-alternative.p.rapidapi.com/";
 const apiKey = process.env.REACT_APP_API_KEY;
@@ -231,7 +234,7 @@ const Movie = () => {
                       bottom: "0.5rem",
                       right: "0.5rem",
                       zIndex: 1,
-                    }} 
+                    }}
                   >
                     <MoreHorizIcon />
                   </IconButton>
@@ -242,28 +245,17 @@ const Movie = () => {
                     justifyContent: "flex-start",
                     alignItems: "center",
                   }}
-                >
-                  <Button
-                    type="button"
+                ></div>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <EditIcon
                     onClick={() => handleEditReview(review._id)}
-                    sx={{
-                      backgroundColor: "blue",
-                      color: "white",
-                      px: 3,
-                      marginRight: "0.5rem",
-                    }}
-                    variant="contained"
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    type="button"
+                    color="primary"
+                    sx={{ marginRight: "0.5rem" }}
+                  />
+                  <DeleteIcon
                     onClick={() => handleDeleteReview(review._id)}
-                    sx={{ backgroundColor: "darkred", color: "white", px: 3 }}
-                    variant="contained"
-                  >
-                    Delete
-                  </Button>
+                    sx={{ color: red[900] }}
+                  />
                 </div>
               </Paper>
             </Grid>
