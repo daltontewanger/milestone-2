@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Typography, Paper, Grid, Chip, Button } from "@mui/material";
-import DeleteIcon from '@mui/icons-material/Delete';
-import { red } from '@mui/material/colors';
-import EditIcon from '@mui/icons-material/Edit';
+import {
+  Typography,
+  Paper,
+  Grid,
+  Chip,
+  Button,
+  IconButton,
+} from "@mui/material";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { red } from "@mui/material/colors";
+import EditIcon from "@mui/icons-material/Edit";
 
 const baseUrl = "https://movie-database-alternative.p.rapidapi.com/";
 const apiKey = process.env.REACT_APP_API_KEY;
@@ -13,6 +21,7 @@ const Movie = () => {
   const navigate = useNavigate();
   const [movieData, setMovieData] = useState(null);
   const [reviews, setReviews] = useState([]);
+  const [showFullReview, setShowFullReview] = useState({});
 
   useEffect(() => {
     const fetchMovieData = async () => {
@@ -65,16 +74,38 @@ const Movie = () => {
     navigate(`/deletereview/${imdbID}/${reviewID}`);
   };
 
+  const toggleFullReview = (index) => {
+    setShowFullReview((prevState) => {
+      const newState = { ...prevState };
+      newState[index] = !newState[index];
+      return newState;
+    });
+  };
+
   if (!movieData) {
     return <div>Loading...</div>;
   }
 
   return (
-    <div style={{ padding: "16px" }}>
-      <Typography variant="h1" gutterBottom>
+    <div style={{ padding: "1rem" }}>
+      <Typography
+        variant="h2"
+        gutterBottom
+        sx={{
+          fontSize: {
+            xs: "2rem",
+            sm: "4rem",
+            md: "4rem",
+            lg: "4rem",
+          },
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        }}
+      >
         {movieData.Title}
       </Typography>
-      <Paper style={{ padding: "16px", marginBottom: "24px" }}>
+      <Paper style={{ padding: "1rem", marginBottom: "1.5rem" }}>
         <Grid container spacing={4}>
           <Grid item xs={12} sm={4}>
             <img
@@ -82,7 +113,7 @@ const Movie = () => {
               alt={movieData.Title}
               style={{ maxWidth: "100%", height: "auto" }}
             />
-            <div style={{ marginTop: "16px" }}>
+            <div style={{ marginTop: "1rem" }}>
               <Typography variant="subtitle1" gutterBottom>
                 Genres:
               </Typography>
@@ -90,19 +121,20 @@ const Movie = () => {
                 <Chip
                   key={index}
                   label={genre}
-                  style={{ marginRight: "8px", marginBottom: "8px" }}
+                  style={{ marginRight: "0.5rem", marginBottom: "0.5rem" }}
                 />
               ))}
             </div>
           </Grid>
           <Grid item xs={12} sm={8}>
-            <Typography variant="h4" gutterBottom>
+            <Typography variant="h5" gutterBottom>
               {movieData.Year} | {movieData.Rated} | {movieData.Runtime}
             </Typography>
+            <hr style={{ margin: "1rem 0" }} />
             <Typography
               variant="body1"
               gutterBottom
-              style={{ fontSize: "1.1rem", marginBottom: "16px" }}
+              style={{ fontSize: "1.1rem", marginBottom: "1rem" }}
             >
               {movieData.Plot}
             </Typography>
@@ -134,12 +166,25 @@ const Movie = () => {
         </Grid>
       </Paper>
 
-      <Typography variant="h2" gutterBottom>
+      <Typography
+        variant="h3"
+        gutterBottom
+        sx={{
+          fontSize: {
+            xs: "2rem",
+            sm: "3rem",
+            md: "3rem",
+            lg: "3rem",
+          },
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+        }}
+      >
         Reviews
         <Button
           variant="contained"
           color="primary"
-          style={{ marginLeft: "16px" }}
+          style={{ marginLeft: "1rem" }}
           onClick={handleNewReview}
         >
           New Review
@@ -148,8 +193,8 @@ const Movie = () => {
       <Paper
         style={{
           backgroundColor: "#f5f5f5",
-          padding: "16px",
-          marginBottom: "24px",
+          padding: "1rem",
+          marginBottom: "1.5rem",
         }}
       >
         <Grid container spacing={2}>
@@ -157,19 +202,61 @@ const Movie = () => {
             <Grid item xs={12} sm={6} key={index}>
               <Paper
                 style={{
-                  padding: "16px",
-                  marginBottom: "16px",
-                  cursor: "pointer",
+                  padding: "0.5rem",
+                  marginBottom: "1rem",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  wordBreak: "break-word",
+                  overflow: "hidden",
+                  position: "relative",
                 }}
               >
-                <Typography variant="subtitle1" gutterBottom>
-                  Rating: {review.rating} ⭐
-                </Typography>
-                <Typography variant="body1" gutterBottom>
-                  {review.review}
-                </Typography>
-                <EditIcon onClick={() => handleEditReview(review._id)} color='primary' ></EditIcon>
-                <DeleteIcon onClick={() => handleDeleteReview(review._id)} sx={{ color: red[900] }}></DeleteIcon>
+                <div style={{ flexGrow: 1 }}>
+                  <Typography variant="subtitle1" gutterBottom>
+                    Rating: {review.rating} ⭐
+                  </Typography>
+                  <Typography variant="body1" gutterBottom>
+                    {showFullReview[index]
+                      ? review.review
+                      : review.review.length > 100
+                      ? `${review.review.substring(0, 100)}...`
+                      : review.review}
+                  </Typography>
+                </div>
+                {review.review.length > 100 && !showFullReview[index] && (
+                  <IconButton
+                    onClick={() => toggleFullReview(index)}
+                    size="small"
+                    aria-label="show more"
+                    style={{
+                      position: "absolute",
+                      bottom: "0.5rem",
+                      right: "0.5rem",
+                      zIndex: 1,
+                    }}
+                  >
+                    <MoreHorizIcon />
+                  </IconButton>
+                )}
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-start",
+                    alignItems: "center",
+                  }}
+                ></div>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <EditIcon
+                    onClick={() => handleEditReview(review._id)}
+                    color="primary"
+                    sx={{ marginRight: "0.5rem" }}
+                  />
+                  <DeleteIcon
+                    onClick={() => handleDeleteReview(review._id)}
+                    sx={{ color: red[900] }}
+                  />
+                </div>
               </Paper>
             </Grid>
           ))}
