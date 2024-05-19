@@ -5,6 +5,7 @@ import MovieList from "./Components/MovieList";
 import NewReview from "./Components/NewReview";
 import EditReview from "./Components/EditReview";
 import DeleteReview from "./Components/DeleteReview";
+import Footer from "./Components/Footer";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/editreview/:imdbID/:reviewID" element={<EditReview />} />
           <Route path="/deletereview/:imdbID/:reviewID" element={<DeleteReview />} />
         </Routes>
+        <Footer />
       </Router>
     </div>
   );
