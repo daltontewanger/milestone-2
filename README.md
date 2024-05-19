@@ -15,9 +15,29 @@
     - Express
     - Render (Deployment)
 
-    Site Owners/Creators
-    - Jacob Bunnell
-    - Emily Ochoa
-    - Dalton Tewanger
-    - Courtney Rudd
-    - Victor Estrada
+## Collaborators / Site Owners & Creators
+```jsx
+import React from 'react';
+
+const Collaborators = () => {
+  const collaborators = [
+    "Courtney Rudd",
+    "Jacob Bunnell",
+    "Emily Ochoa",
+    "Victor Estrada",
+    "Dalton Tewanger"
+  ];
+
+  return (
+    <div>
+      <h2>Collaborators</h2>
+      <ul>
+        {collaborators.map((collaborator, index) => (
+          <li key={index}>{collaborator}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default Collaborators;
