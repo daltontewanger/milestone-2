@@ -104,7 +104,7 @@ function NewReview() {
             <Grid container justifyContent="center">
                 <Grid item xs={12} sm={10} md={8} lg={6}>
                     <Paper elevation={10} style={paperStyle}>
-                        <Grid align='center'>
+                        <Grid alignItems='center'>
                             <Avatar style={avatarStyle}>
                                 <RateReviewRoundedIcon />
                             </Avatar>

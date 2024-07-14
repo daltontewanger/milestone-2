@@ -6,6 +6,7 @@ import NewReview from "./Components/NewReview.tsx";
 import EditReview from "./Components/EditReview.tsx";
 import DeleteReview from "./Components/DeleteReview.tsx";
 import Footer from "./Components/Footer.tsx";
+import React from "react";
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
           <Route path="/editreview/:imdbID/:reviewID" element={<EditReview />} />
           <Route path="/deletereview/:imdbID/:reviewID" element={<DeleteReview />} />
         </Routes>
-        <Footer />
+        <Footer isMainPage={undefined} />
       </Router>
     </div>
   );

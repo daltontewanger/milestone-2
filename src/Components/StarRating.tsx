@@ -2,10 +2,15 @@ import React, { useState } from "react";
 import { FaStar } from "react-icons/fa"; // npm install react-icons
 import './StarRating.css';
 
-function StarRating({ rating, onRatingChange }) {
-    const [hover, setHover] = useState(null);
+interface StarRatingProps {
+    rating: number;
+    onRatingChange: (newRating: number) => void;
+}
 
-    const handleRatingClick = (newRating) => {
+const StarRating = ({ rating, onRatingChange }: StarRatingProps) => {
+    const [hover, setHover] = useState<number | null>(null);
+
+    const handleRatingClick = (newRating: number) => {
         onRatingChange(newRating);
     };
 
