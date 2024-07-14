@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import StarRating from "./StarRating";
+import StarRating from "./StarRating.tsx";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Grid, Paper, Avatar, Button, Typography } from '@mui/material';
 import RateReviewRoundedIcon from '@mui/icons-material/RateReviewRounded';
-import Loading from './Loading';
+import Loading from './Loading.tsx';
 
 function EditReview() {
     const navigate = useNavigate();

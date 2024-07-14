@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import Box from '@mui/material/Box';
 import { Grid, Paper, Avatar, Button, Typography } from '@mui/material';
 import RateReviewRoundedIcon from '@mui/icons-material/RateReviewRounded';
-import Loading from './Loading';
+import Loading from './Loading.tsx';
 
 function DeleteReview() {
     const navigate = useNavigate();

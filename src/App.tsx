@@ -1,11 +1,11 @@
-import Navbar from "./Components/Navbar";
+import Navbar from "./Components/Navbar.tsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Movie from "./Components/Movie";
-import MovieList from "./Components/MovieList";
-import NewReview from "./Components/NewReview";
-import EditReview from "./Components/EditReview";
-import DeleteReview from "./Components/DeleteReview";
-import Footer from "./Components/Footer";
+import Movie from "./Components/Movie.tsx";
+import MovieList from "./Components/MovieList.tsx";
+import NewReview from "./Components/NewReview.tsx";
+import EditReview from "./Components/EditReview.tsx";
+import DeleteReview from "./Components/DeleteReview.tsx";
+import Footer from "./Components/Footer.tsx";
 
 function App() {
   return (
