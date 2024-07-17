@@ -1,10 +1,11 @@
+import React from 'react';
 import SearchForm from './SearchForm.tsx';
 
-function MovieList() {
-
+const MovieList = () => {
+    
     return (
         <div>
-            <h1 align="center">Welcome to JEDCV Movie Reviews</h1>
+            <h1 style={{ textAlign: 'center' }}>Welcome to JEDCV Movie Reviews</h1>
             <SearchForm />
         </div>
     );

@@ -11,16 +11,31 @@ import { Link } from 'react-router-dom';
 const baseUrl = "https://movie-database-alternative.p.rapidapi.com/";
 const apiKey = process.env.REACT_APP_API_KEY;
 
-const SearchForm = () => {
-  const [query, setQuery] = useState('');
-  const [searchResults, setSearchResults] = useState(null); // State to hold search results
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+interface Movie {
+  imdbID: string;
+  Title: string;
+  Year: string;
+  Poster: string;
+}
 
-  const fetchApiData = async (query) => {
+interface SearchResults {
+  Search: Movie[];
+}
+
+const SearchForm = () => {
+  const [query, setQuery] = useState<string>('');
+  const [searchResults, setSearchResults] = useState<SearchResults | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+
+  const fetchApiData = async (query: string) => {
     setLoading(true);
     setError(false);
     const url = `${baseUrl}?s=${encodeURIComponent(query)}&r=json`;
+    if (!apiKey) {
+      console.error("API key is not defined.");
+      return;
+    }
     const options = {
       method: 'GET',
       headers: {
@@ -31,7 +46,7 @@ const SearchForm = () => {
 
     try {
       const response = await fetch(url, options);
-      const result = await response.json();
+      const result: SearchResults = await response.json();
       if (result && result.Search && result.Search.length > 0) {
         setSearchResults(result);
       } else {
@@ -45,7 +60,6 @@ const SearchForm = () => {
       setLoading(false);
     }
   };
-
 
   return (
     <div>
@@ -73,10 +87,10 @@ const SearchForm = () => {
       {searchResults && searchResults.Search && (
         <Box display="flex" justifyContent="center">
           <Grid container spacing={2} style={{ margin: '30px auto', maxWidth: '1400px' }}>
-            {searchResults.Search.map((movie, index) => (
+            {searchResults.Search.map((movie) => (
               <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={movie.imdbID}>
-                <Link to={`/movie/${movie.imdbID}`} key={movie.imdbID} style={{ textDecoration: 'none', width: 'calc(100% / 6)', marginBottom: '20px' }} >
-                  <Card >
+                <Link to={`/movie/${movie.imdbID}`} style={{ textDecoration: 'none', width: 'calc(100% / 6)', marginBottom: '20px' }}>
+                  <Card>
                     <CardActionArea>
                       <CardMedia
                         component="img"

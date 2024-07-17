@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import StarRating from "./StarRating.tsx";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -8,25 +7,26 @@ import { Grid, Paper, Avatar, Button, Typography } from '@mui/material';
 import RateReviewRoundedIcon from '@mui/icons-material/RateReviewRounded';
 import Loading from './Loading.tsx';
 
-function NewReview() {
+const NewReview = () => {
     const navigate = useNavigate();
-    const { imdbID } = useParams();
-    const [currentRating, setCurrentRating] = useState(0);
-    const [review, setReview] = useState("");
-    const [error, setError] = useState(false);
-    const [ratingError, setRatingError] = useState(false);
-    const [loading, setLoading] = useState(true);
+    const { imdbID } = useParams<{ imdbID: string }>();
+    const [currentRating, setCurrentRating] = useState<number>(0);
+    const [review, setReview] = useState<string>("");
+    const [error, setError] = useState<boolean>(false);
+    const [ratingError, setRatingError] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(true);
     const maxCharacters = 500;
     const minCharacters = 20;
     const maxRows = 15;
 
     useEffect(() => {
-        setTimeout(() => {
+        const timer = setTimeout(() => {
             setLoading(false);
         }, 2000);
+        return () => clearTimeout(timer);
     }, []);
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (review.length < minCharacters || currentRating < 1) {
             setError(review.length < minCharacters);
@@ -64,7 +64,6 @@ function NewReview() {
         } catch (error) {
             console.error("Error submitting review:", error);
             setLoading(false);
-            // Handle error here
         }
     };
 
@@ -72,12 +71,12 @@ function NewReview() {
         navigate(`/movie/${imdbID}`);
     };
 
-    const handleRatingChange = (newRating) => {
+    const handleRatingChange = (newRating: number) => {
         setCurrentRating(newRating);
         setRatingError(false);
     };
 
-    const handleReviewChange = (event) => {
+    const handleReviewChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const inputText = event.target.value;
         const lines = inputText.split('\n');
         if (lines.length <= maxRows && inputText.length <= maxCharacters) {
@@ -92,7 +91,6 @@ function NewReview() {
         }
     };
 
-    const paperStyle = { padding: 20, height: 'auto', width: '100%', maxWidth: '600px', margin: '30px auto' };
     const avatarStyle = { backgroundColor: '#1976d2' };
 
     if (loading) {
@@ -103,8 +101,22 @@ function NewReview() {
         <div>
             <Grid container justifyContent="center">
                 <Grid item xs={12} sm={10} md={8} lg={6}>
-                    <Paper elevation={10} style={paperStyle}>
-                        <Grid alignItems='center'>
+                    <Paper
+                        style={{
+                            padding: 20,
+                            height: "auto",
+                            maxWidth: '600px',
+                            margin: '30px auto',
+                            marginBottom: "1rem",
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "space-between",
+                            wordBreak: "break-word",
+                            overflow: "hidden",
+                            position: "relative",
+                        }}
+                    >
+                        <Grid container sx={{ flexDirection: 'column', alignItems: 'center' }}>
                             <Avatar style={avatarStyle}>
                                 <RateReviewRoundedIcon />
                             </Avatar>
@@ -151,6 +163,6 @@ function NewReview() {
             </Grid>
         </div>
     );
-}
+};
 
 export default NewReview;

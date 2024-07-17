@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import LiveTvIcon from '@mui/icons-material/LiveTv';
 
-function Navbar() {
+const Navbar = () => {
 
     return (
         <AppBar position="static">
@@ -48,9 +48,6 @@ function Navbar() {
                     >
                         JEDCV
                     </Typography>
-                    {/* <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        <Button sx={{ my: 2, color: 'white', display: 'block' }} href={'/'} onClick={handleCloseNavMenu}>Movies</Button>
-                    </Box> */}
                 </Toolbar>
             </Container>
         </AppBar>
