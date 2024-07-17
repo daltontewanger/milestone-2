@@ -7,7 +7,11 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
 
-const Footer = ({ isMainPage }) => {
+interface FooterProps {
+  isMainPage: boolean;
+}
+
+const Footer = ({ isMainPage }: FooterProps) => {
   return (
     <Box
       component="footer"

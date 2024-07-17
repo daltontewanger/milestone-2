@@ -16,19 +16,27 @@ import EditIcon from "@mui/icons-material/Edit";
 const baseUrl = "https://movie-database-alternative.p.rapidapi.com/";
 const apiKey = process.env.REACT_APP_API_KEY;
 
+interface Review {
+  _id: string;
+  rating: number;
+  review: string;
+}
+
 const Movie = () => {
-  const { imdbID } = useParams();
+  const { imdbID } = useParams<{ imdbID: string }>();
   const navigate = useNavigate();
-  const [movieData, setMovieData] = useState(null);
-  const [reviews, setReviews] = useState([]);
-  const [showFullReview, setShowFullReview] = useState({});
+  const [movieData, setMovieData] = useState<any>(null);
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [showFullReview, setShowFullReview] = useState<Record<number, boolean>>({});
 
   useEffect(() => {
     const fetchMovieData = async () => {
-      if (!imdbID) {
+      if (!imdbID) return;
+      const url = `${baseUrl}?r=json&i=${imdbID}`;
+      if (!apiKey) {
+        console.error("API key is not defined.");
         return;
       }
-      const url = `${baseUrl}?r=json&i=${imdbID}`;
       const options = {
         method: "GET",
         headers: {
@@ -66,20 +74,19 @@ const Movie = () => {
     navigate(`/newreview/${imdbID}`);
   };
 
-  const handleEditReview = (reviewID) => {
+  const handleEditReview = (reviewID: string) => {
     navigate(`/editreview/${imdbID}/${reviewID}`);
   };
 
-  const handleDeleteReview = (reviewID) => {
+  const handleDeleteReview = (reviewID: string) => {
     navigate(`/deletereview/${imdbID}/${reviewID}`);
   };
 
-  const toggleFullReview = (index) => {
-    setShowFullReview((prevState) => {
-      const newState = { ...prevState };
-      newState[index] = !newState[index];
-      return newState;
-    });
+  const toggleFullReview = (index: number) => {
+    setShowFullReview((prevState) => ({
+      ...prevState,
+      [index]: !prevState[index],
+    }));
   };
 
   if (!movieData) {
@@ -220,8 +227,8 @@ const Movie = () => {
                     {showFullReview[index]
                       ? review.review
                       : review.review.length > 100
-                      ? `${review.review.substring(0, 100)}...`
-                      : review.review}
+                        ? `${review.review.substring(0, 100)}...`
+                        : review.review}
                   </Typography>
                 </div>
                 {review.review.length > 100 && !showFullReview[index] && (
@@ -239,13 +246,6 @@ const Movie = () => {
                     <MoreHorizIcon />
                   </IconButton>
                 )}
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                  }}
-                ></div>
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <EditIcon
                     onClick={() => handleEditReview(review._id)}

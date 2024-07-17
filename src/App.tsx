@@ -8,7 +8,7 @@ import DeleteReview from "./Components/DeleteReview.tsx";
 import Footer from "./Components/Footer.tsx";
 import React from "react";
 
-function App() {
+const App = () => {
   return (
     <div className="App">
       <Router>
@@ -20,7 +20,7 @@ function App() {
           <Route path="/editreview/:imdbID/:reviewID" element={<EditReview />} />
           <Route path="/deletereview/:imdbID/:reviewID" element={<DeleteReview />} />
         </Routes>
-        <Footer isMainPage={undefined} />
+        <Footer isMainPage={false} />
       </Router>
     </div>
   );
